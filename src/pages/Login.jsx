@@ -31,6 +31,12 @@ function Login() {
     }
   };
 
+  useEffect(() => {
+    if (localStorage.getItem("chat-app-user")) {
+      navigate("/");
+    }
+  });
+
   const toastStyling = {
     position: "bottom-center",
     autoClose: 8000,
@@ -68,6 +74,7 @@ function Login() {
             placeholder="Username"
             name="username"
             onChange={handleChange}
+            min="3"
           />
           <input
             type="password"

@@ -18,7 +18,7 @@ function Register() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (handleValidation()) {
-      const { password, confirmPassword, username, email } = values;
+      const { password, username, email } = values;
       const { data } = await axios.post(registerRoute, {
         username,
         email,
@@ -33,6 +33,12 @@ function Register() {
       }
     }
   };
+
+  useEffect(() => {
+    if (localStorage.getItem("chat-app-user")) {
+      navigate("/");
+    }
+  });
 
   const toastStyling = {
     position: "bottom-center",
