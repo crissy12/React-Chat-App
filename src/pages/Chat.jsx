@@ -9,7 +9,7 @@ function Chat() {
   const navigate = useNavigate();
   const [contacts, setContacts] = useState([]);
   const [currentUser, setCurrentUser] = useState(undefined);
-
+  const [currentChat, setCurrentChat] = useState(undefined);
   useEffect(() => {
     if (!localStorage.getItem("chat-app-user")) {
       navigate("/login");
@@ -37,10 +37,19 @@ function Chat() {
     }
   }, [currentUser]);
 
+  const handleChatChange = (chat) => {
+    setCurrentChat(chat);
+  };
+
   return (
     <Container>
-      <div className="container"></div>
-      <Contacts contacts={contacts} />
+      <div className="container">
+        <Contacts
+          contacts={contacts}
+          currentUser={currentUser}
+          changeChat={handleChatChange}
+        />
+      </div>
     </Container>
   );
 }
