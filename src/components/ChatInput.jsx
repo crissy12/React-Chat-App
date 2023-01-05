@@ -4,7 +4,7 @@ import EmojiPicker from "emoji-picker-react";
 import { IoMdSend } from "react-icons/io";
 import { BsEmojiSmileFill } from "react-icons/bs";
 
-export default function ChatInput() {
+export default function ChatInput({ handleSendMsg }) {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [msg, setMsg] = useState("");
 
@@ -12,10 +12,18 @@ export default function ChatInput() {
     setShowEmojiPicker(!showEmojiPicker);
   };
 
-  const handleEmojiClick = (event, emoji) => {
+  const handleEmojiClick = (emoji, event) => {
     let message = msg;
-    message += -emoji.emoji;
+    message += emoji.emoji;
     setMsg(message);
+  };
+
+  const sendChat = (event) => {
+    event.preventDefault();
+    if (msg.length > 0) {
+      handleSendMsg(msg);
+      setMsg("");
+    }
   };
   return (
     <Container>
@@ -25,12 +33,12 @@ export default function ChatInput() {
           {showEmojiPicker && <EmojiPicker onEmojiClick={handleEmojiClick} />}
         </div>
       </div>
-      <form className="input-container">
+      <form className="input-container" onSubmit={(e) => sendChat(e)}>
         <input
           type="text"
           placeholder="type your message here"
           value={msg}
-          onChange={(e) => setMsg(e.target)}
+          onChange={(e) => setMsg(e.target.value)}
         />
         <button className="submit">
           <IoMdSend />
@@ -44,7 +52,7 @@ const Container = styled.div`
   display: grid;
   grid-template-columns: 5% 95%;
   align-items: center;
-  background-color: #080420;
+  background-color: #222428;
   padding: 0 2rem;
   padding-bottom: 0.3rem;
   .button-container {
@@ -62,6 +70,16 @@ const Container = styled.div`
       .EmojiPickerReact {
         position: absolute;
         top: -470px;
+        background-color: #222428;
+        box-shadow: 0 5px 10px #3f8bfe;
+        border-color: #3f8bfe;
+        .epr-search {
+          background-color: transparent;
+          border-color: #3f8bfe;
+        }
+        .epr-group {
+          background-color: #222428;
+        }
       }
     }
   }
@@ -81,7 +99,7 @@ const Container = styled.div`
       padding-left: 1rem;
       font-size: 1.2rem;
       &::selection {
-        background-color: #9186f3;
+        background-color: #3f8bfe;
       }
       &:focus {
         outline: none;
@@ -93,7 +111,7 @@ const Container = styled.div`
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: #9186f3;
+      background-color: #3f8bfe;
       border: none;
       svg {
         font-size: 2rem;
